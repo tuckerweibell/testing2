@@ -86,7 +86,7 @@ def output_new_vulnerabilities(new_vulnerabilities)
       puts "  Package: #{vuln[:pkg_name]} (Installed Version: #{vuln[:installed_version]})"
       puts "  Fixed Version: #{vuln[:fixed_version]}"
       puts "  CVSS Score: #{vuln[:cvss_score]}"
-      puts "  Published Date: #{vuln[:published_date]}"
+      puts "  Published Date: #{Time.parse(vuln[:published_date]).strftime("%B %d, %Y")}"
       puts "  Description: #{vuln[:description]}"
       
       if vuln[:references].any?
