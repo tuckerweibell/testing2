@@ -20,7 +20,7 @@ jobs:
     steps:
       - name: Install tools
         run: |
-          apt install git -y
+          apt update && apt install git -y
     
       - name: Checkout the code
         uses: actions/checkout@v3
