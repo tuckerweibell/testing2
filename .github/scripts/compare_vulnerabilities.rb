@@ -3,16 +3,14 @@ require 'fileutils'
 require 'set'
 
 # Color codes for output
-COLOR_CRIMSON = "\033[38;5;160m"  # Crimson for Critical
+COLOR_CRIMSON = "\033[38;5;160m"
 COLOR_RED = "\033[38;5;196m"
-COLOR_LIGHT_RED = "\033[38;5;203m"  # Light Red for High
-COLOR_ORANGE = "\033[38;5;214m"  # Orange for Medium
-COLOR_YELLOW = "\033[38;5;226m"  # Yellow for Low
-COLOR_BLUE = "\033[38;5;4m"  # Blue for Unknown
-COLOR_GREEN = "\033[38;5;48m"  # Green for clear
-RESET_TEXT_FORMATTING = "\033[0m"  # Clear all applied styles and reset to default
-
-puts "#{COLOR_CRIMSON}CRITICAL#{RESET_TEXT_FORMATTING} | #{COLOR_LIGHT_RED}HIGH#{RESET_TEXT_FORMATTING} | #{COLOR_ORANGE}MEDIUM#{RESET_TEXT_FORMATTING} | #{COLOR_YELLOW}LOW#{RESET_TEXT_FORMATTING} | #{COLOR_BLUE}UNKNOWN#{RESET_TEXT_FORMATTING} | #{COLOR_GREEN}No Vulnerabilities#{RESET_TEXT_FORMATTING}"
+COLOR_LIGHT_RED = "\033[38;5;203m"
+COLOR_ORANGE = "\033[38;5;214m"
+COLOR_YELLOW = "\033[38;5;226m"
+COLOR_BLUE = "\033[38;5;4m"
+COLOR_GREEN = "\033[38;5;48m"
+RESET_TEXT_FORMATTING = "\033[0m"
 
 # Load the vulnerabilities from the JSON files
 def load_vulnerabilities(file)
@@ -82,8 +80,8 @@ def output_new_vulnerabilities(new_vulnerabilities)
   else
     puts "#{COLOR_LIGHT_RED}New vulnerabilities introduced:#{RESET_TEXT_FORMATTING}"
     new_vulnerabilities.each do |vuln|
-      puts "#{RESET_TEXT_FORMATTING}----------------------------------------"
-      puts "Vulnerability ID: #{COLOR_LIGHT_RED}#{vuln[:vulnerability_id]} #{RESET_TEXT_FORMATTING}(Severity: #{colorize_severity(vuln[:severity])}#{vuln[:severity]}#{RESET_TEXT_FORMATTING})"
+      puts "#{RESET_TEXT_FORMATTING}#{"*"*50}"
+      puts "📌 Vulnerability ID: #{COLOR_LIGHT_RED}#{vuln[:vulnerability_id]} #{RESET_TEXT_FORMATTING}(Severity: #{colorize_severity(vuln[:severity])}#{vuln[:severity]}#{RESET_TEXT_FORMATTING})"
       puts "  File: #{vuln[:target_file]}"
       puts "  Package: #{vuln[:pkg_name]} (Installed Version: #{vuln[:installed_version]})"
       puts "  Fixed Version: #{vuln[:fixed_version]}"
@@ -100,7 +98,7 @@ def output_new_vulnerabilities(new_vulnerabilities)
           puts "    ... (and more references)"
         end
       end
-      puts "#{RESET_TEXT_FORMATTING}----------------------------------------"
+      puts "#{RESET_TEXT_FORMATTING}#{"*"*50}"
     end
         
     puts "#{COLOR_YELLOW} Failed due to the introduction of new vulnerabilities. Please review the details above and address them before proceeding with the merge.#{RESET_TEXT_FORMATTING}"
