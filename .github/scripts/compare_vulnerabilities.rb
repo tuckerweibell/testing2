@@ -80,7 +80,7 @@ def output_new_vulnerabilities(new_vulnerabilities)
     puts "#{'=' * 55}"
   end
 
-  puts "#{COLORS['YELLOW']}Failed due to the introduction of new vulnerabilities. Please review the details above.#{COLORS['RESET']}"
+  puts "#{COLORS['MEDIUM']}Failed due to the introduction of new vulnerabilities. Please review the details above.#{COLORS['RESET']}"
   exit(1)
 end
 
