@@ -23,8 +23,8 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Add Git safe directory exception
-        run: git config --global --add safe.directory /__w/testingscan/testingscan
+     # - name: Add Git safe directory exception
+     #   run: git config --global --add safe.directory /__w/testingscan/testingscan
 
       - name: Install Trivy
         run: |
