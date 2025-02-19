@@ -77,10 +77,10 @@ def output_new_vulnerabilities(new_vulnerabilities)
   if new_vulnerabilities.empty?
     puts "#{COLOR_GREEN}No new vulnerabilities introduced.#{RESET_TEXT_FORMATTING}"
   else
-    puts "#{COLOR_RED}New vulnerabilities introduced:#{RESET_TEXT_FORMATTING}"
+    puts "#{COLOR_LIGHT_RED}New vulnerabilities introduced:#{RESET_TEXT_FORMATTING}"
     new_vulnerabilities.each do |vuln|
       puts "#{RESET_TEXT_FORMATTING}----------------------------------------"
-      puts "Vulnerability ID: #{COLOR_RED}#{vuln[:vulnerability_id]} #{RESET_TEXT_FORMATTING}(Severity: #{colorize_severity(vuln[:severity])}#{vuln[:severity]}#{RESET_TEXT_FORMATTING})"
+      puts "Vulnerability ID: #{COLOR_LIGHT_RED}#{vuln[:vulnerability_id]} #{RESET_TEXT_FORMATTING}(Severity: #{colorize_severity(vuln[:severity])}#{vuln[:severity]}#{RESET_TEXT_FORMATTING})"
       puts "  File: #{vuln[:target_file]}"
       puts "  Package: #{vuln[:pkg_name]} (Installed Version: #{vuln[:installed_version]})"
       puts "  Fixed Version: #{vuln[:fixed_version]}"
