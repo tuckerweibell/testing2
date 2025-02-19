@@ -25,16 +25,16 @@ def parse_vulnerabilities(vulnerabilities_json)
     
     result['Vulnerabilities'].map do |vuln|
       {
-        vulnerability_id:  vuln['VulnerabilityID'],
-        package_uid:      vuln.dig('PkgIdentifier', 'UID'),
+        # Required fields:
+        vulnerability_id: vuln['VulnerabilityID'],
+        pkg_id:           vuln['PkgID'],
         target_file:      result['Target'],
         severity:         vuln['Severity'],
         title:            vuln['Title'],
         fixed_version:    vuln['FixedVersion'],
         pkg_name:         vuln['PkgName'],
         installed_version: vuln['InstalledVersion'],
-        cvss_score:       vuln['CVSSScore'],
-        published_date:   vuln['PublishedDate'],
+        published_date:   vuln['PublishedDate'] || nil,
         description:      vuln['Description'],
         references:       vuln['References'] || []
       }
@@ -44,10 +44,8 @@ end
 
 # Identify newly introduced vulnerabilities
 def compare_vulnerabilities(base_vulnerabilities, head_vulnerabilities)
-  base_set = base_vulnerabilities.map { |v| [v[:vulnerability_id], v[:package_uid], v[:target_file]] }.to_set
-  head_set = head_vulnerabilities.map { |v| [v[:vulnerability_id], v[:package_uid], v[:target_file]] }
-
-  head_vulnerabilities.select { |v| !base_set.include?([v[:vulnerability_id], v[:package_uid], v[:target_file]]) }
+  base_set = base_vulnerabilities.map { |v| [v[:vulnerability_id], v[:pkg_id], v[:target_file]] }.to_set
+  head_vulnerabilities.select { |v| !base_set.include?([v[:vulnerability_id], v[:pkg_id], v[:target_file]]) }
 end
 
 # Output new vulnerabilities with color formatting
@@ -61,19 +59,18 @@ def output_new_vulnerabilities(new_vulnerabilities)
 
   new_vulnerabilities.each do |vuln|
     severity_color = COLORS[vuln[:severity]] || COLORS['RESET']
-    formatted_date = Time.parse(vuln[:published_date]).strftime("%B %d, %Y")
+    formatted_date = vuln[:published_date] ? Time.parse(vuln[:published_date]).strftime("%B %d, %Y") : "N/A"
 
     puts <<~VULN
-      📌 Vulnerability ID: #{COLORS['HIGH']}#{vuln[:vulnerability_id]}#{COLORS['RESET']} (Severity: #{severity_color}#{vuln[:severity]}#{COLORS['RESET']})
+      📌 Vulnerability ID: #{COLORS['HIGH']}#{vuln[:vulnerability_id]}#{COLORS['RESET']} (Severity: #{severity_color}#{vuln[:severity] || "N/A"}#{COLORS['RESET']})
         File: #{vuln[:target_file]}
-        Package: #{vuln[:pkg_name]} (Installed Version: #{vuln[:installed_version]})
-        Fixed Version: #{vuln[:fixed_version]}
-        CVSS Score: #{vuln[:cvss_score]}
+        Package: #{vuln[:pkg_name] || "N/A"} (Installed Version: #{vuln[:installed_version] || "N/A"})
+        Fixed Version: #{vuln[:fixed_version] || "N/A"}
         Published Date: #{formatted_date}
-        Description: #{vuln[:description]}
+        Description: #{vuln[:description] || "N/A"}
     VULN
 
-    if vuln[:references].any?
+    if vuln[:references]&.any?
       puts "  References:"
       vuln[:references].take(5).each { |ref| puts "    - #{ref}" }
     end
