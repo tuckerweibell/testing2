@@ -79,8 +79,8 @@ def output_new_vulnerabilities(new_vulnerabilities)
     puts "#{COLOR_GREEN}No new vulnerabilities introduced.#{RESET_TEXT_FORMATTING}"
   else
     puts "#{COLOR_LIGHT_RED}New vulnerabilities introduced:#{RESET_TEXT_FORMATTING}"
+    puts
     new_vulnerabilities.each do |vuln|
-      puts "#{RESET_TEXT_FORMATTING}#{"*"*50}"
       puts "📌 Vulnerability ID: #{COLOR_LIGHT_RED}#{vuln[:vulnerability_id]} #{RESET_TEXT_FORMATTING}(Severity: #{colorize_severity(vuln[:severity])}#{vuln[:severity]}#{RESET_TEXT_FORMATTING})"
       puts "  File: #{vuln[:target_file]}"
       puts "  Package: #{vuln[:pkg_name]} (Installed Version: #{vuln[:installed_version]})"
@@ -98,7 +98,7 @@ def output_new_vulnerabilities(new_vulnerabilities)
           puts "    ... (and more references)"
         end
       end
-      puts "#{RESET_TEXT_FORMATTING}#{"*"*50}"
+      puts "#{RESET_TEXT_FORMATTING}#{"="*55}"
     end
         
     puts "#{COLOR_YELLOW} Failed due to the introduction of new vulnerabilities. Please review the details above and address them before proceeding with the merge.#{RESET_TEXT_FORMATTING}"
