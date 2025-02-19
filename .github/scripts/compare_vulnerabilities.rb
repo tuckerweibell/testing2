@@ -1,6 +1,7 @@
-require 'json'
-require 'fileutils'
 require 'set'
+require 'json'
+require 'time'
+require 'fileutils'
 
 # Color codes for output
 COLOR_CRIMSON = "\033[38;5;160m"
