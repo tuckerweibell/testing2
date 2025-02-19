@@ -3,13 +3,16 @@ require 'fileutils'
 require 'set'
 
 # Color codes for output
-COLOR_CRIMSON = "\033[38;5;196m"  # Crimson for Critical
-COLOR_LIGHT_RED = "\033[38;5;214m"  # Light Red for High
-COLOR_ORANGE = "\033[38;5;208m"  # Orange for Medium
-COLOR_YELLOW = "\033[33m"  # Yellow for Low
-COLOR_BLUE = "\033[34m"  # Blue for Unknown
-COLOR_GREEN = "\033[32m"  # Green for clear
+COLOR_CRIMSON = "\033[38;5;160m"  # Crimson for Critical
+COLOR_RED = "\033[38;5;196m"
+COLOR_LIGHT_RED = "\033[38;5;203m"  # Light Red for High
+COLOR_ORANGE = "\033[38;5;214m"  # Orange for Medium
+COLOR_YELLOW = "\033[38;5;226m"  # Yellow for Low
+COLOR_BLUE = "\033[38;5;4m"  # Blue for Unknown
+COLOR_GREEN = "\033[38;5;48m"  # Green for clear
 RESET_TEXT_FORMATTING = "\033[0m"  # Clear all applied styles and reset to default
+
+puts "#{COLOR_CRIMSON}CRITICAL#{RESET_TEXT_FORMATTING} | #{COLOR_LIGHT_RED}HIGH#{RESET_TEXT_FORMATTING} | #{COLOR_ORANGE}MEDIUM#{RESET_TEXT_FORMATTING} | #{COLOR_YELLOW}LOW#{RESET_TEXT_FORMATTING} | #{COLOR_BLUE}UNKNOWN#{RESET_TEXT_FORMATTING} | #{COLOR_GREEN}No Vulnerabilities#{RESET_TEXT_FORMATTING}"
 
 # Load the vulnerabilities from the JSON files
 def load_vulnerabilities(file)
