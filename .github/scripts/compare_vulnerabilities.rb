@@ -1,15 +1,21 @@
 require 'json'
 require 'fileutils'
 require 'set'
+
 # Color codes for output
-COLOR_RED = "\033[31m"
-COLOR_YELLOW = "\033[33m"
-COLOR_GREEN = "\033[32m"
+COLOR_CRIMSON = "\033[38;5;196m"  # Crimson for Critical
+COLOR_LIGHT_RED = "\033[38;5;214m"  # Light Red for High
+COLOR_ORANGE = "\033[38;5;208m"  # Orange for Medium
+COLOR_YELLOW = "\033[33m"  # Yellow for Low
+COLOR_BLUE = "\033[34m"  # Blue for Unknown
+COLOR_GREEN = "\033[32m"  # Green for clear
 RESET_TEXT_FORMATTING = "\033[0m"  # Clear all applied styles and reset to default
+
 # Load the vulnerabilities from the JSON files
 def load_vulnerabilities(file)
   JSON.parse(File.read(file))
 end
+
 # Parse the vulnerabilities and return an array of hashes with required attributes
 def parse_vulnerabilities(vulnerabilities_json)
   vulnerabilities_json['Results'].flat_map do |result|
@@ -33,6 +39,7 @@ def parse_vulnerabilities(vulnerabilities_json)
     end
   end.compact # Remove nil entries from the result
 end
+
 # Compare vulnerabilities and return a list of new ones based on VulnerabilityID, PackageUID, and TargetFile
 def compare_vulnerabilities(base_vulnerabilities, head_vulnerabilities)
   # Create sets of vulnerability data from base and head
@@ -46,19 +53,25 @@ def compare_vulnerabilities(base_vulnerabilities, head_vulnerabilities)
   end
   new_vulnerabilities_details
 end
+
 # Helper function to colorize text based on severity
 def colorize_severity(severity)
   case severity
   when 'CRITICAL'
-    COLOR_RED
+    COLOR_CRIMSON
   when 'HIGH'
-    COLOR_YELLOW
+    COLOR_LIGHT_RED
+  when 'MEDIUM'
+    COLOR_ORANGE
   when 'LOW'
-    COLOR_GREEN
+    COLOR_YELLOW
+  when 'UNKNOWN'
+    COLOR_BLUE
   else
     RESET_TEXT_FORMATTING
   end
 end
+
 # Output new vulnerabilities with color
 def output_new_vulnerabilities(new_vulnerabilities)
   if new_vulnerabilities.empty?
@@ -91,6 +104,7 @@ def output_new_vulnerabilities(new_vulnerabilities)
     exit(1)
   end
 end
+
 # Main comparison logic
 def run_comparison(base_file, head_file)
   # Load and parse JSON files
@@ -103,6 +117,7 @@ def run_comparison(base_file, head_file)
   # Output results
   output_new_vulnerabilities(new_vulnerabilities)
 end
+
 # Run the comparison with the paths to the base and head commit JSON files
 base_file = 'base_vulnerabilities.json'
 head_file = 'head_vulnerabilities.json'
