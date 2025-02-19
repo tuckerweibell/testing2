@@ -70,7 +70,7 @@ def output_new_vulnerabilities(new_vulnerabilities)
       puts "Vulnerability ID: #{COLOR_RED}#{vuln[:vulnerability_id]} #{RESET_TEXT_FORMATTING}(Severity: #{colorize_severity(vuln[:severity])}#{vuln[:severity]}#{RESET_TEXT_FORMATTING})"
       puts "  File: #{vuln[:target_file]}"
       puts "  Package: #{vuln[:pkg_name]} (Installed Version: #{vuln[:installed_version]})"
-      puts "  Fixed Version: #{vuln[:fixed_version]}"
+      puts "  Fixed Version: #{COLOR_GREEN}#{vuln[:fixed_version]}#{RESET_TEXT_FORMATTING}"
       puts "  CVSS Score: #{vuln[:cvss_score]}"
       puts "  Published Date: #{vuln[:published_date]}"
       puts "  Description: #{vuln[:description]}"
@@ -79,9 +79,6 @@ def output_new_vulnerabilities(new_vulnerabilities)
         puts "  References:"
         vuln[:references].take(5).each do |ref|
           puts "    - #{ref}"
-        end
-        if vuln[:references].size > 5
-          puts "    ... (and more references)"
         end
       end
       puts "#{RESET_TEXT_FORMATTING}----------------------------------------"
