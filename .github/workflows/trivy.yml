@@ -18,17 +18,6 @@ jobs:
       ALERT_ON: "MEDIUM,HIGH,CRITICAL" # Options: UNKNOWN,LOW,MEDIUM,HIGH,CRITICAL
 
     steps:
-      - name: Install tools
-        run: |
-          apt update && apt install git -y
-    
-      - name: Checkout the code
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-
-     # - name: Add Git safe directory exception
-     #   run: git config --global --add safe.directory /__w/testingscan/testingscan
 
       - name: Install Trivy
         run: |
@@ -42,6 +31,15 @@ jobs:
           echo "$EXPECTED_CHECKSUM  trivy.tar.gz" | sha256sum -c -
           tar -xzf trivy.tar.gz -C /usr/local/bin
           trivy --version
+    
+      - name: Checkout the code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+     # - name: Add Git safe directory exception
+     #   run: git config --global --add safe.directory /__w/testingscan/testingscan
+
       - name: Checkout default branch (main)
         run: |
           git fetch origin main
