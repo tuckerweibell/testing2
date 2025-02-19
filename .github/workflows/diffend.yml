@@ -1,0 +1,19 @@
+name: ci
+
+on:
+  push:
+
+jobs:
+  diffend:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3.0
+      - name: Install bundler
+        run: gem install bundler --no-document
+      - name: Install diffend
+        run: bundle plugin install diffend
+      - name: bundle secure
+        run: bundle secure
