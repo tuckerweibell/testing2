@@ -18,6 +18,10 @@ jobs:
       ALERT_ON: "MEDIUM,HIGH,CRITICAL" # Options: UNKNOWN,LOW,MEDIUM,HIGH,CRITICAL
 
     steps:
+      - name: Install tools
+        run: |
+          apt install git -y
+    
       - name: Checkout the code
         uses: actions/checkout@v3
         with:
