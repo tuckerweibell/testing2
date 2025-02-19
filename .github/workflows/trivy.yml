@@ -33,7 +33,7 @@ jobs:
           trivy --version
     
       - name: Checkout the code
-        uses: actions/checkout@latest
+        uses: actions/checkout@4.2.2
         with:
           fetch-depth: 0
 
